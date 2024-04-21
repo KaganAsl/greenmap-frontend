@@ -15,12 +15,9 @@ function MapComponent({}) {
 
   const [markers, setMarkers] = useState([]);
 
-
-
   const handleMarkerClick = (marker) => {
     setSelectedMarker(marker);
   };
-
 
   useEffect( () => {
     const fetchDataFromConnection = async () => {
@@ -53,6 +50,17 @@ function MapComponent({}) {
 
   }, [reRender])
 
+  // In this component it uses tempMarker to show the marker that is being created
+  // But inside the app selected marker is used to show the marker that is being created
+  // So when selectedMarker is null, it means that the marker is not being created
+  // So it sets the tempMarker to null
+
+  // TODO: Refactor this to use only one state for the marker that is being created
+  useEffect( () => {
+    if (selectedMarker === null) {
+      setTempMarker(null);
+    }
+  }, [selectedMarker])
 
   const ClickMarker = () => {
     const map = useMapEvents({
