@@ -44,8 +44,6 @@ const useSelectedMarker = () => {
     return context;
 }
 
-
-
 const TempMarkerContext = React.createContext();
 
 // Provider
@@ -88,7 +86,47 @@ const useTempMarker = () => {
     return context;
 }
 
+const ReRenderContext = React.createContext();
 
+// Provider
+const ReRenderProvider = ({children, reRender, setReRender}) => {
+
+    //const [reRender, setReRender] = React.useState(initialState);
+
+    // Context values passed to consumer
+    const value = {
+        reRender,    // <------ Expose Value to Consumer
+        setReRender  // <------ Expose Setter to Consumer
+    };
+
+    return (
+        <ReRenderContext.Provider value={value}>
+            {children}
+        </ReRenderContext.Provider>
+    )
+}
+
+// Consumer
+const ReRenderConsumer = ({children}) => {
+    return (
+        <ReRenderContext.Consumer>
+            {(context) => {
+                if (context === undefined) {
+                    throw new Error('ReRenderConsumer must be used within ReRenderProvider');
+                }
+                return children(context)
+            }}
+        </ReRenderContext.Consumer>
+    )
+}
+
+// Hook
+const useReRender = () => {
+    const context = React.useContext(ReRenderContext);
+    if(context === undefined)
+        throw new Error('useReRender must be used within ReRender (Context)');
+    return context;
+}
 
 export {
     SelectedMarkerProvider,
@@ -97,5 +135,9 @@ export {
 
     TempMarkerProvider,
     TempMarkerConsumer,
-    useTempMarker
+    useTempMarker,
+
+    ReRenderProvider,
+    ReRenderConsumer,
+    useReRender
 }

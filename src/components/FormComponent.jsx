@@ -1,23 +1,22 @@
 import React, {useState} from 'react'
 import instance from '../js/connection'
-import { useSelectedMarker, useTempMarker } from './Context';
+import { useSelectedMarker, useTempMarker, useReRender } from './Context';
 
 const FormComponent = ({formData, setFormData}) => {
 
     const {selectedMarker, setSelectedMarker} = useSelectedMarker();
     const {tempMarker, setTempMarker} = useTempMarker();
+    const {reRender, setReRender} = useReRender();
 
     const [Error, setError] = useState('')
-
 
     const handleWindowClose = () => {
         setSelectedMarker(null);
       };
-    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         setFormData((prevData) => {
           if (name.startsWith('location.')) {
             // Handle nested fields for location
@@ -30,25 +29,25 @@ const FormComponent = ({formData, setFormData}) => {
               },
             };
           }
-    
+
           return {
             ...prevData,
             [name]: value,
           };
         });
       };
-    
+
       const handleSubmit = (e) => {
         e.preventDefault();
         let latitudeString = formData.location.lat.toString()
         let longitudeString = formData.location.long.toString()
-        
+
         let newFormData = formData
         newFormData.location.lat = latitudeString
         newFormData.location.long = longitudeString
 
         console.log(newFormData)
-        
+
         setFormData(newFormData)
 
         const submitData = async (formData) => {
@@ -64,8 +63,7 @@ const FormComponent = ({formData, setFormData}) => {
           }
         }
         submitData(formData)
-
-        
+        setReRender(!reRender)
     };
 
   return (
