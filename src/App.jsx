@@ -7,21 +7,6 @@ import instance from './js/connection'
 import { SelectedMarkerProvider, TempMarkerProvider, ReRenderProvider, useSelectedMarker, useTempMarker, useReRender} from './components/Context';
 
 
-
-const markerStructure = {
-  location: {
-    lat: '',
-    long:  '',
-  },
-  user_ip: '',
-  title: '',
-  text: '',
-  photo_id: '',
-  id: '',
-}
-
-
-
 function App() {
 
   const [tempMarker, setTempMarker] = useState(null);

@@ -11,4 +11,11 @@ class FormDataStructure {
     }
 }
 
-export { FormDataStructure };
+class MarkerStructure extends FormDataStructure {
+    constructor(lat, long, user_ip, title, text, photo_id, id) {
+        super(lat, long, user_ip, title, text, photo_id);
+        this.id = id;
+    }
+}
+
+export { FormDataStructure, MarkerStructure };
