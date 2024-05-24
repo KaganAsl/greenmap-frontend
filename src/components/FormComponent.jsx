@@ -52,7 +52,7 @@ const FormComponent = ({formData, setFormData}) => {
 
         const submitData = async (formData) => {
           try {
-            const response = await instance.post('/submitPin', formData);
+            const response = await instance.post('/pin/submitPin', formData);
             setError('')
             setSelectedMarker(null)
             setTempMarker(null)

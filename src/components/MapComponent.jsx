@@ -22,7 +22,7 @@ function MapComponent({}) {
   useEffect( () => {
     const fetchDataFromConnection = async () => {
       try {
-        const response = await instance.get('/getAllPins');
+        const response = await instance.get('/pin/getAllPins');
         setMarkers([]);
 
         response.data.map( (item) => {
@@ -48,7 +48,7 @@ function MapComponent({}) {
 
     fetchDataFromConnection();
 
-  }, [reRender])
+  }, [reRender, tempMarker, selectedMarker])
 
   // In this component it uses tempMarker to show the marker that is being created
   // But inside the app selected marker is used to show the marker that is being created
