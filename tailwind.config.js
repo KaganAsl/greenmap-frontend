@@ -4,7 +4,11 @@ export default {
     './src/**/*.{html,jsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'custom-green': '#28963A',
+      }
+    },
     screens: {
       '2xs': { min: '300px' },
       xs: { max: '575px' }, // Mobile (iPhone 3 - iPhone XS Max).
@@ -15,6 +19,7 @@ export default {
       '2xl': { min: '1359px' } // Desktop widescreen.
     },
   },
+
 
   plugins: [],
 }
