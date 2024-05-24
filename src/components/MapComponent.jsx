@@ -11,6 +11,8 @@ import { useReRender, useSelectedMarker, useTempMarker } from "./Context";
 import instance from "../js/connection";
 import * as L from "leaflet";
 import { outerBounds } from "../js/utils";
+import { MarkerStructure } from "../js/structures";
+import { parse } from "postcss";
 
 function MapComponent({}) {
   const { selectedMarker, setSelectedMarker } = useSelectedMarker();
@@ -28,20 +30,17 @@ function MapComponent({}) {
       try {
         const response = await instance.get("/pin/getAllPins");
         setMarkers([]);
-
         response.data.map((item) => {
-          const newMarker = {
-            location: {
-              lat: parseFloat(item.location.lat),
-              lng: parseFloat(item.location.long),
-            },
-            user_ip: item.user_ip,
-            title: item.title,
-            text: item.text,
-            photo_id: item.photo_id,
-            id: item.location.ID,
-          };
-          setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
+          const newMarker = new MarkerStructure(
+            parseFloat(item.location.lat),
+            parseFloat(item.location.lng),
+            item.user_ip,
+            item.title,
+            item.text,
+            item.photo_id,
+            item.id
+          );
+          setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
         });
         return;
       } catch (error) {
@@ -67,19 +66,17 @@ function MapComponent({}) {
   const ClickMarker = () => {
     const map = useMapEvents({
       click: (e) => {
-        const newMarker = {
-          location: {
-            lat: e.latlng.lat,
-            lng: e.latlng.lng,
-          },
-          user_ip: "",
-          title: "",
-          text: "",
-          photo_id: "",
-          id: Date.now(),
-        };
-        setTempMarker(newMarker);
-        setSelectedMarker(newMarker);
+        const newMarker = new MarkerStructure(
+          e.latlng.lat,
+          e.latlng.lng,
+          "",
+          "",
+          "",
+          "",
+          Date.now()
+        );
+        setSelectedMarker(newMarker.serialize());
+        setTempMarker(newMarker.serialize());
       },
     });
   };

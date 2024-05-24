@@ -46,7 +46,7 @@ const WindowComponent = ({}) => {
         <p className="mb-2 hidden">Latitude: {selectedMarker.location.lat}</p>
         <p className="mb-2 hidden">Longitude: {selectedMarker.location.long}</p>
 
-        {tempMarker === selectedMarker ? (
+        {tempMarker && tempMarker.id === selectedMarker.id ? (
           <FormComponent
             formData={formData}
             setFormData={setFormData}

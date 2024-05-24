@@ -39,11 +39,11 @@ const FormComponent = ({ formData, setFormData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let latitudeString = formData.location.lat.toString();
-    let longitudeString = formData.location.long.toString();
+    let longitudeString = formData.location.lng.toString();
 
     let newFormData = formData;
     newFormData.location.lat = latitudeString;
-    newFormData.location.long = longitudeString;
+    newFormData.location.lng = longitudeString;
 
     setFormData(newFormData);
 
