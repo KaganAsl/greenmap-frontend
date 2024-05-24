@@ -1,7 +1,8 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import FormComponent from './FormComponent';
 import DataComponent from './DataComponent';
 import { useSelectedMarker, useTempMarker } from './Context';
+import { FormDataStructure } from '../js/structures';
 
 
 
@@ -10,17 +11,14 @@ const WindowComponent = ({}) => {
   const {selectedMarker, setSelectedMarker} = useSelectedMarker();
   const {tempMarker, setTempMarker} = useTempMarker();
 
-    const [formData, setFormData] = useState({
-        location: {
-          lat: selectedMarker ? selectedMarker.location.lat : '',
-          long: selectedMarker ? selectedMarker.location.lng : '',
-        },
-        user_ip: '',
-        title: '',
-        text: '',
-        photo_id: '',
-      });
-  
+    const [formData, setFormData] = useState(
+      new FormDataStructure(selectedMarker.location.lat ? selectedMarker.location.lat : '', selectedMarker.location.lng ? selectedMarker.location.lng : '' , '', '', '', '')
+    );
+
+    useEffect(() => {
+      setFormData(new FormDataStructure(selectedMarker.location.lat, selectedMarker.location.lng, '', '', '', ''))
+    }, [selectedMarker])
+
     return (
     <div className="flex justify-center sm:justify-end md:justify-end lg:justify-end  inset-0 absolute items-end sm:items-center lg:items-center">
         <div className={"px-8 pt-6 pb-8 mb-4 m-2 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:mr-3 bg-white border rounded-2xl shadow-md z-10 xs:w-[90vw] md:w-[40vw] lg:w-[30vw]  "}>
