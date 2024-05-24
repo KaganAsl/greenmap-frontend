@@ -46,8 +46,6 @@ const FormComponent = ({formData, setFormData}) => {
         newFormData.location.lat = latitudeString
         newFormData.location.long = longitudeString
 
-        console.log(newFormData)
-
         setFormData(newFormData)
 
         const submitData = async (formData) => {
@@ -137,13 +135,13 @@ const FormComponent = ({formData, setFormData}) => {
             <div className='flex justify-between'>
                 <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-custom-green hover:custom-green-hover text-white font-bold py-2 px-4 rounded"
                 >
                 Save
                 </button>
 
                 <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded"
                 onClick={handleWindowClose}
                 >
                 Close

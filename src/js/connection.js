@@ -15,7 +15,6 @@ const api = {
       return response.data;
     } catch (error) {
       console.error('Error sending form data:', error);
-      console.log(error.response)
       return error.response
     }
   },

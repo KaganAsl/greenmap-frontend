@@ -4,8 +4,6 @@ import DataComponent from './DataComponent';
 import { useSelectedMarker, useTempMarker } from './Context';
 import { FormDataStructure } from '../js/structures';
 
-
-
 const WindowComponent = ({}) => {
 
   const {selectedMarker, setSelectedMarker} = useSelectedMarker();
