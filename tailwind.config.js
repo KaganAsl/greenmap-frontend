@@ -7,6 +7,7 @@ export default {
     extend: {
       colors: {
         'custom-green': '#28963A',
+        'custom-green-hover': '#408C4C',
       }
     },
     screens: {
