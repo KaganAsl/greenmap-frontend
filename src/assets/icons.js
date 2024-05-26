@@ -54,8 +54,12 @@ let upIcon = {
   iconUrl: "src/assets/Up.png",
 };
 
+let hudBackground = {
+  iconUrl: "src/assets/HudBackgorund.png",
+};
+
 
 export { blueIcon, greenIcon, redIcon, purpleIcon, loginIcon,
          burgerIcon, downIcon, filterIcon, searchIcon, closeIcon,
-         upIcon
+         upIcon, hudBackground
        };
