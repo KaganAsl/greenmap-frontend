@@ -139,6 +139,50 @@ const useReRender = () => {
   return context;
 };
 
+const loggedInContext = React.createContext();
+
+// Provider
+const LoggedInProvider = ({ children, loggedIn, setLoggedIn }) => {
+  //const [reRender, setReRender] = React.useState(initialState);
+
+  // Context values passed to consumer
+  const value = {
+    loggedIn, // <------ Expose Value to Consumer
+    setLoggedIn, // <------ Expose Setter to Consumer
+  };
+
+  return (
+    <loggedInContext.Provider value={value}>
+      {children}
+    </loggedInContext.Provider>
+  );
+};
+
+// Consumer
+const LoggedInConsumer = ({ children }) => {
+  return (
+    <loggedInContext.Consumer>
+      {(context) => {
+        if (context === undefined) {
+          throw new Error(
+            "ReRenderConsumer must be used within ReRenderProvider",
+          );
+        }
+        return children(context);
+      }}
+    </loggedInContext.Consumer>
+  );
+};
+
+// Hook
+const useLoggedIn = () => {
+  const context = React.useContext(loggedInContext);
+  if (context === undefined)
+    throw new Error("LoggedIn must be used within LoggedIn (Context)");
+  return context;
+};
+
+
 export {
   SelectedMarkerProvider,
   SelectedMarkerConsumer,
@@ -149,4 +193,7 @@ export {
   ReRenderProvider,
   ReRenderConsumer,
   useReRender,
+  LoggedInProvider,
+  LoggedInConsumer,
+  useLoggedIn,
 };

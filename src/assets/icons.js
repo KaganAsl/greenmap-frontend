@@ -26,4 +26,36 @@ let purpleIcon = new LeafIcon({
   iconUrl: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png",
 });
 
-export { blueIcon, greenIcon, redIcon, purpleIcon };
+let loginIcon = {
+  iconUrl: "src/assets/User.png",
+};
+
+let burgerIcon = {
+  iconUrl: "src/assets/Burger.png",
+};
+
+let downIcon = {
+  iconUrl: "src/assets/Down.png",
+};
+
+let filterIcon = {
+  iconUrl: "src/assets/Filter.png",
+};
+
+let searchIcon = {
+  iconUrl: "src/assets/Search.png",
+};
+
+let closeIcon = {
+  iconUrl: "src/assets/Close.png",
+};
+
+let upIcon = {
+  iconUrl: "src/assets/Up.png",
+};
+
+
+export { blueIcon, greenIcon, redIcon, purpleIcon, loginIcon,
+         burgerIcon, downIcon, filterIcon, searchIcon, closeIcon,
+         upIcon
+       };

@@ -94,6 +94,7 @@ function MapComponent({}) {
       zoom={7}
       maxZoom={16}
       className="h-screen w-screen z-0"
+      zoomControl={false}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png"
