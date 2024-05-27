@@ -7,12 +7,13 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { blueIcon, redIcon } from "../assets/icons";
-import { useReRender, useSelectedMarker, useTempMarker } from "./Context";
+import { useReRender, useSelectedMarker, useTempMarker, useLoggedIn } from "./Context";
 import instance from "../js/connection";
 import * as L from "leaflet";
 import { outerBounds } from "../js/utils";
 import { MarkerStructure } from "../js/structures";
 import { parse } from "postcss";
+import Cookies from "js-cookie";
 
 function MapComponent({}) {
   const { selectedMarker, setSelectedMarker } = useSelectedMarker();
@@ -29,6 +30,7 @@ function MapComponent({}) {
     const fetchDataFromConnection = async () => {
       try {
         const response = await instance.get("/pin/getAllPins");
+        console.log("Response:", response.data);
         setMarkers([]);
         response.data.map((item) => {
           const newMarker = new MarkerStructure(
@@ -37,8 +39,14 @@ function MapComponent({}) {
             item.user_ip,
             item.title,
             item.text,
-            item.photo_id,
-            item.id
+            {
+              id: item.photo.id,
+              name: item.photo.name,
+              link: item.photo.link,
+            },
+            item.id,
+            item.category.id,
+            item.category.type
           );
           setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
         });

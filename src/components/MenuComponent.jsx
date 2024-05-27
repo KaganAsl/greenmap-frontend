@@ -7,7 +7,6 @@ import { useLoggedIn } from './Context';
 
 
 function MenuComponent() {
-    const { loggedIn, setLoggedIn } = useLoggedIn();
     const [menuOpen, setMenuOpen] = useState(false);
     const [filterOpen, setFilterOpen] = useState(false);
 

@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import instance from "../js/connection";
+import Cookies from "js-cookie";
 import { useSelectedMarker, useTempMarker, useReRender } from "./Context";
 
 const FormComponent = ({ formData, setFormData }) => {
   const { selectedMarker, setSelectedMarker } = useSelectedMarker();
   const { tempMarker, setTempMarker } = useTempMarker();
   const { reRender, setReRender } = useReRender();
+  const [categories, setCategories] = useState([]);
+  const [file, setFile] = useState(null);
 
   const [Error, setError] = useState("");
 
   const handleWindowClose = () => {
     setSelectedMarker(null);
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleChange = (e) => {
@@ -45,11 +52,27 @@ const FormComponent = ({ formData, setFormData }) => {
     newFormData.location.lat = latitudeString;
     newFormData.location.lng = longitudeString;
 
+    newFormData.category_id = parseInt(newFormData.category_id);
+    //let file = newFormData.photo;
+    delete newFormData.photo;
+
     setFormData(newFormData);
 
-    const submitData = async (formData) => {
+    console.log("Form Data:", newFormData, file);
+
+    const submitData = async (formData, file) => {
       try {
-        const response = await instance.post("/pin/submitPin", formData);
+        const data = new FormData();
+        data.append("Data", JSON.stringify(formData));
+        data.append("File", file);
+
+        const response = await instance.post("/pin/submitPin", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
+          },
+        });
+        console.log("Response:", response.data);
         setError("");
         setSelectedMarker(null);
         setTempMarker(null);
@@ -59,9 +82,16 @@ const FormComponent = ({ formData, setFormData }) => {
         setError(error.response.data);
       }
     };
-    submitData(formData);
+    submitData(formData, file);
     setReRender(!reRender);
   };
+
+  useEffect(() => {
+    instance.get("/category/getAllCategories").then((response) => {
+      console.log("Response:", response.data.Categories);
+      setCategories(response.data.Categories);
+    });
+  }, []);
 
   return (
     <div>
@@ -80,6 +110,32 @@ const FormComponent = ({ formData, setFormData }) => {
           value={formData.location.long}
         />
 
+        {/* Category Field */}
+        <div className="mb-4">
+          <label
+            htmlFor="category"
+            className="block text-sm font-bold mb-2 text-gray-700"
+          >
+            Category
+          </label>
+          <select
+            id="category"
+            name="category_id"
+            value={formData.category}
+            onChange={handleChange}
+            required={true}
+            className="mt-1 p-2 border rounded-md w-full"
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.type}
+              </option>
+            ))}
+            {/* Add more options as needed */}
+          </select>
+        </div>
+
         {/* Title Field */}
         <div className="mb-4">
           <label
@@ -93,6 +149,7 @@ const FormComponent = ({ formData, setFormData }) => {
             id="title"
             name="title"
             value={formData.title}
+            required={true}
             onChange={handleChange}
             className="mt-1 p-2 border rounded-md w-full"
           />
@@ -110,14 +167,16 @@ const FormComponent = ({ formData, setFormData }) => {
             id="text"
             name="text"
             value={formData.text}
+            required={true}
             onChange={handleChange}
             rows="4"
             className="mt-1 p-2 border rounded-md w-full"
           />
         </div>
 
+
         {/* Photo Field */}
-        <div className="mb-4 hidden">
+        <div className="mb-4">
           <label
             htmlFor="photo"
             className="block text-sm font-bold mb-2 text-gray-700"
@@ -128,7 +187,7 @@ const FormComponent = ({ formData, setFormData }) => {
             type="file"
             id="photo"
             name="photo"
-            onChange={handleChange}
+            onChange={handleFileChange}
             className="mt-1 p-2 border rounded-md w-full"
           />
         </div>

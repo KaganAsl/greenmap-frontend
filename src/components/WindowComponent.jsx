@@ -15,7 +15,8 @@ const WindowComponent = ({}) => {
       "",
       "",
       "",
-      "",
+      0,
+      1,
     ),
   );
 
@@ -27,7 +28,8 @@ const WindowComponent = ({}) => {
         "",
         "",
         "",
-        "",
+        0,
+        1,
       ),
     );
   }, [selectedMarker]);
@@ -40,7 +42,7 @@ const WindowComponent = ({}) => {
         }
       >
         <h3 className="text-lg font-semibold mb-4 break-words">
-          Details Of Event
+          Details Of Pin
         </h3>
         <p className="mb-2 hidden">Marker ID: {selectedMarker.id}</p>
         <p className="mb-2 hidden">Latitude: {selectedMarker.location.lat}</p>
@@ -54,7 +56,7 @@ const WindowComponent = ({}) => {
             setTempMarker={setTempMarker}
           />
         ) : (
-          <DataComponent marker={selectedMarker} />
+          <DataComponent marker={selectedMarker} setSelectedMarker={setSelectedMarker} />
         )}
       </div>
     </div>

@@ -16,12 +16,32 @@ import {
   useLoggedIn,
 
 } from "./components/Context";
+import Cookies from "js-cookie";
+import { HttpStatusCode } from "axios";
 
 function App() {
   const [tempMarker, setTempMarker] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [reRender, setReRender] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const sessionResponse = instance.get("/session/checkSession", {
+    headers: {
+      "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
+    }});
+
+  useEffect(() => {
+    sessionResponse.then((response) => {
+      console.log('Response:', response.data);
+      if (response.status === HttpStatusCode.Ok) {
+        setLoggedIn(true);
+      }
+    }).catch((error) => {
+      if (error.response.status === HttpStatusCode.Unauthorized) {
+        setLoggedIn(false);
+      }
+    });
+  }, []);
 
   return (
     <div>

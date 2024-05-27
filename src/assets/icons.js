@@ -58,8 +58,16 @@ let hudBackground = {
   iconUrl: "src/assets/HudBackgorund.png",
 };
 
+let logoutIcon = {
+  iconUrl: "src/assets/Logout.png",
+};
+
+let settingsIcon = {
+  iconUrl: "src/assets/Settings.png",
+};
+
 
 export { blueIcon, greenIcon, redIcon, purpleIcon, loginIcon,
          burgerIcon, downIcon, filterIcon, searchIcon, closeIcon,
-         upIcon, hudBackground
+         upIcon, hudBackground, logoutIcon, settingsIcon
        };
