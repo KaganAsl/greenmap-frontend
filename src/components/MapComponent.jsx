@@ -7,10 +7,10 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { blueIcon, redIcon } from "../assets/icons";
-import { useReRender, useSelectedMarker, useTempMarker, useLoggedIn } from "./Context";
+import { useReRender, useSelectedMarker, useTempMarker, useRadius } from "./Context";
 import instance from "../js/connection";
 import * as L from "leaflet";
-import { outerBounds } from "../js/utils";
+import { outerBounds, calculateBounds } from "../js/utils";
 import { MarkerStructure } from "../js/structures";
 import { parse } from "postcss";
 import Cookies from "js-cookie";
@@ -19,6 +19,7 @@ function MapComponent({}) {
   const { selectedMarker, setSelectedMarker } = useSelectedMarker();
   const { tempMarker, setTempMarker } = useTempMarker();
   const { reRender, setReRender } = useReRender();
+  const { radius, setRadius } = useRadius();
 
   const [markers, setMarkers] = useState([]);
 
@@ -30,7 +31,7 @@ function MapComponent({}) {
     const fetchDataFromConnection = async () => {
       try {
         const response = await instance.get("/pin/getAllPins");
-        console.log("Response:", response.data);
+        const bounds = calculateBounds(radius)
         setMarkers([]);
         response.data.map((item) => {
           const newMarker = new MarkerStructure(
@@ -48,7 +49,16 @@ function MapComponent({}) {
             item.category.id,
             item.category.type
           );
-          setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+          if (radius.radius !== 0 ){
+            console.log(bounds)
+            console.log(newMarker.location)
+            if (newMarker.location.lat >= bounds[0][0] && newMarker.location.lat < bounds[1][0] && newMarker.location.lng >= bounds[0][1] && newMarker.location.lng < bounds[1][1]){
+              setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+            }
+          } else {
+            setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+          }
+
         });
         return;
       } catch (error) {
@@ -57,7 +67,7 @@ function MapComponent({}) {
     };
 
     fetchDataFromConnection();
-  }, [reRender, tempMarker, selectedMarker]);
+  }, [reRender, tempMarker, selectedMarker, radius]);
 
   // In this component it uses tempMarker to show the marker that is being created
   // But inside the app selected marker is used to show the marker that is being created

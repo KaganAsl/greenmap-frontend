@@ -66,8 +66,21 @@ let settingsIcon = {
   iconUrl: "src/assets/Settings.png",
 };
 
+let edit1Icon = {
+  iconUrl: "src/assets/Edit1.png",
+};
+
+let edit2Icon = {
+  iconUrl: "src/assets/Edit2.png",
+};
+
+let imageIcon = {
+  iconUrl: "src/assets/Image.png",
+};
+
 
 export { blueIcon, greenIcon, redIcon, purpleIcon, loginIcon,
          burgerIcon, downIcon, filterIcon, searchIcon, closeIcon,
-         upIcon, hudBackground, logoutIcon, settingsIcon
+         upIcon, hudBackground, logoutIcon, settingsIcon,
+          edit1Icon, edit2Icon, imageIcon
        };

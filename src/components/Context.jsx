@@ -182,6 +182,49 @@ const useLoggedIn = () => {
   return context;
 };
 
+const radiusContext = React.createContext();
+
+// Provider
+const RadiusProvider = ({ children, radius, setRadius }) => {
+  //const [reRender, setReRender] = React.useState(initialState);
+
+  // Context values passed to consumer
+  const value = {
+    radius, // <------ Expose Value to Consumer
+    setRadius, // <------ Expose Setter to Consumer
+  };
+
+  return (
+    <radiusContext.Provider value={value}>
+      {children}
+    </radiusContext.Provider>
+  );
+};
+
+// Consumer
+const RadiusConsumer = ({ children }) => {
+  return (
+    <radiusContext.Consumer>
+      {(context) => {
+        if (context === undefined) {
+          throw new Error(
+            "ReRenderConsumer must be used within ReRenderProvider",
+          );
+        }
+        return children(context);
+      }}
+    </radiusContext.Consumer>
+  );
+};
+
+// Hook
+const useRadius = () => {
+  const context = React.useContext(radiusContext);
+  if (context === undefined)
+    throw new Error("LoggedIn must be used within LoggedIn (Context)");
+  return context;
+};
+
 
 export {
   SelectedMarkerProvider,
@@ -196,4 +239,7 @@ export {
   LoggedInProvider,
   LoggedInConsumer,
   useLoggedIn,
+  RadiusProvider,
+  RadiusConsumer,
+  useRadius,
 };

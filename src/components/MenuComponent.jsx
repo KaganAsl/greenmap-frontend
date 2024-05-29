@@ -3,13 +3,17 @@ import RadiusFilterSliderComponent from './RadiusSliderComponent';
 import CategoryFilterComponent from './CategoryFilterComponent';
 import { useState } from 'react';
 import { burgerIcon, closeIcon, downIcon, filterIcon, searchIcon, upIcon} from '../assets/icons';
-import { useLoggedIn } from './Context';
+import { useRadius } from './Context';
 
 
 function MenuComponent() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [filterOpen, setFilterOpen] = useState(false);
+    const { radius, setRadius } = useRadius();
 
+    const handleRemoveFilters = () => {
+        setRadius({radius: 0});
+    };
 
     const handleButtonClick = () => {
        setMenuOpen(!menuOpen);
@@ -67,9 +71,14 @@ function MenuComponent() {
                                 </div>
                             )}
                         </div>
-                        <div className="p-4 flex flex-col items-center ">
+                        <div className="p-4 flex flex-col justify-start ">
                             {filterOpen ? <RadiusFilterSliderComponent /> : null}
                             {filterOpen ? <CategoryFilterComponent /> : null}
+                            {filterOpen ? (
+                                <button onClick={handleRemoveFilters} className='bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                    Remove Filters
+                                </button>
+                            ) : null}
                         </div>
                     </div>
                 </div>

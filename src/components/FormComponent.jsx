@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import instance from "../js/connection";
 import Cookies from "js-cookie";
 import { useSelectedMarker, useTempMarker, useReRender } from "./Context";
+import { edit2Icon, edit1Icon, imageIcon } from "../assets/icons";
 
 const FormComponent = ({ formData, setFormData }) => {
   const { selectedMarker, setSelectedMarker } = useSelectedMarker();
@@ -126,24 +127,24 @@ const FormComponent = ({ formData, setFormData }) => {
             required={true}
             className="mt-1 p-2 border rounded-md w-full"
           >
-            <option value="">Select a category</option>
+            <option className="" value="">Select a category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.type}
               </option>
             ))}
-            {/* Add more options as needed */}
           </select>
         </div>
 
         {/* Title Field */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <label
             htmlFor="title"
-            className="block text-sm font-bold mb-2 text-gray-700"
+            className="block absolute left-10 top-3 text-sm font-bold mb-2 text-gray-700"
           >
             Title
           </label>
+          <img src={edit1Icon.iconUrl} alt="description" className="absolute left-2 top-2" />
           <input
             type="text"
             id="title"
@@ -151,18 +152,21 @@ const FormComponent = ({ formData, setFormData }) => {
             value={formData.title}
             required={true}
             onChange={handleChange}
-            className="mt-1 p-2 border rounded-md w-full"
+            rows="3"
+            className="mt-1 p-2 border rounded-md w-full pt-6"
           />
         </div>
 
         {/* Text Field */}
-        <div className="mb-4">
+        <div className="mb-4 relative">
+
           <label
             htmlFor="text"
-            className="block text-sm font-bold mb-2 text-gray-700"
+            className="block absolute left-10 top-3 text-sm font-bold mb-2 text-gray-700"
           >
             Text
           </label>
+          <img src={edit2Icon.iconUrl} alt="description" className="absolute left-2 top-2" />
           <textarea
             id="text"
             name="text"
@@ -170,7 +174,7 @@ const FormComponent = ({ formData, setFormData }) => {
             required={true}
             onChange={handleChange}
             rows="4"
-            className="mt-1 p-2 border rounded-md w-full"
+            className="mt-1 p-2 border rounded-md w-full pt-6"
           />
         </div>
 
@@ -183,13 +187,19 @@ const FormComponent = ({ formData, setFormData }) => {
           >
             Photo
           </label>
-          <input
-            type="file"
-            id="photo"
-            name="photo"
-            onChange={handleFileChange}
-            className="mt-1 p-2 border rounded-md w-full"
-          />
+          <label
+            className="mt-1 p-2 border rounded-md w-full bg-white cursor-pointer inline-block"
+          >
+            <img src={imageIcon.iconUrl} alt="photo" className="inline-block mr-3" />
+            Choose a file
+            <input
+              type="file"
+              id="photo"
+              name="photo"
+              onChange={handleFileChange}
+              className="hidden" // hide the default file input
+            />
+          </label>
         </div>
 
         {/* Error Field */}

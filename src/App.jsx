@@ -14,6 +14,7 @@ import {
   useReRender,
   LoggedInProvider,
   useLoggedIn,
+  RadiusProvider,
 
 } from "./components/Context";
 import Cookies from "js-cookie";
@@ -24,6 +25,7 @@ function App() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [reRender, setReRender] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [radius, setRadius] = useState(0);
 
   const sessionResponse = instance.get("/session/checkSession", {
     headers: {
@@ -57,13 +59,16 @@ function App() {
             loggedIn={loggedIn}
             setLoggedIn={setLoggedIn}
           >
+            <RadiusProvider radius={radius} setRadius={setRadius} >
             <ReRenderProvider reRender={reRender} setReRender={setReRender}>
               <HudComponent />
               <LoginComponent />
+
               <MenuComponent />
               {selectedMarker && <WindowComponent />}
               <MapComponent />
             </ReRenderProvider>
+            </RadiusProvider>
           </LoggedInProvider>
         </TempMarkerProvider>
       </SelectedMarkerProvider>
