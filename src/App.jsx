@@ -15,6 +15,7 @@ import {
   LoggedInProvider,
   useLoggedIn,
   RadiusProvider,
+  CategoryProvider
 
 } from "./components/Context";
 import Cookies from "js-cookie";
@@ -26,6 +27,7 @@ function App() {
   const [reRender, setReRender] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [radius, setRadius] = useState(0);
+  const [category, setCategory] = useState(null);
 
   const sessionResponse = instance.get("/session/checkSession", {
     headers: {
@@ -59,6 +61,9 @@ function App() {
             loggedIn={loggedIn}
             setLoggedIn={setLoggedIn}
           >
+            <CategoryProvider
+              categories={category}
+              setCategories={setCategory} >
             <RadiusProvider radius={radius} setRadius={setRadius} >
             <ReRenderProvider reRender={reRender} setReRender={setReRender}>
               <HudComponent />
@@ -69,6 +74,7 @@ function App() {
               <MapComponent />
             </ReRenderProvider>
             </RadiusProvider>
+            </CategoryProvider>
           </LoggedInProvider>
         </TempMarkerProvider>
       </SelectedMarkerProvider>

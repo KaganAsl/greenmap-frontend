@@ -26,7 +26,7 @@ function LoginComponent() {
                     </button>
                 </div>
             </div>
-            <div className="absolute inset-0 p-4 flex justify-end">
+            <div className="flex absolute right-0 left-auto  p-4 justify-end ">
             {loginButton && !loggedIn ? <LoginCredentials /> : null}
             {loginButton && loggedIn ? <LoggedInComponent /> : null}
             </div>

@@ -182,6 +182,49 @@ const useLoggedIn = () => {
   return context;
 };
 
+const categoryContext = React.createContext();
+
+// Provider
+const CategoryProvider = ({ children, category, setCategory }) => {
+  //const [reRender, setReRender] = React.useState(initialState);
+
+  // Context values passed to consumer
+  const value = {
+    category, // <------ Expose Value to Consumer
+    setCategory, // <------ Expose Setter to Consumer
+  };
+
+  return (
+    <categoryContext.Provider value={value}>
+      {children}
+    </categoryContext.Provider>
+  );
+};
+
+// Consumer
+const CategoryConsumer = ({ children }) => {
+  return (
+    <categoryContext.Consumer>
+      {(context) => {
+        if (context === undefined) {
+          throw new Error(
+            "ReRenderConsumer must be used within ReRenderProvider",
+          );
+        }
+        return children(context);
+      }}
+    </categoryContext.Consumer>
+  );
+};
+
+// Hook
+const useCategory = () => {
+  const context = React.useContext(categoryContext);
+  if (context === undefined)
+    throw new Error("LoggedIn must be used within LoggedIn (Context)");
+  return context;
+};
+
 const radiusContext = React.createContext();
 
 // Provider
@@ -242,4 +285,7 @@ export {
   RadiusProvider,
   RadiusConsumer,
   useRadius,
+  CategoryProvider,
+  CategoryConsumer,
+  useCategory,
 };

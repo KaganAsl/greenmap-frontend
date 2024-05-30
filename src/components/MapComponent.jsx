@@ -50,8 +50,6 @@ function MapComponent({}) {
             item.category.type
           );
           if (radius.radius !== 0 ){
-            console.log(bounds)
-            console.log(newMarker.location)
             if (newMarker.location.lat >= bounds[0][0] && newMarker.location.lat < bounds[1][0] && newMarker.location.lng >= bounds[0][1] && newMarker.location.lng < bounds[1][1]){
               setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
             }
