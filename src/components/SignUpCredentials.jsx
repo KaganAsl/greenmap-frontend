@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLoggedIn } from './Context';
 import instance from '../js/connection';
+import LoginCredentials from './LoginCredentials';
 
 const SignupCredentials = () => {
     const { setLoggedIn } = useLoggedIn();
@@ -16,19 +17,28 @@ const SignupCredentials = () => {
     const handleInputChange = (event) => {
         setFormData({ ...formData, [event.target.id]: event.target.value });
     };
-    
+
     const handleButtonClick = () => {
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match.");
             return;
         }
         instance.post('/user/createUser', formData).then((response) => {
-            setLoggedIn(true);
+            instance.post('/login', {
+                username: formData.username,
+                password: formData.password
+            }).then((response) => {
+                setLoggedIn(true);
+            }
+            ).catch((error) => {
+                setError(error.response.data);
+            }
+            );
         }).catch((error) => {
             setError(error.response.data);
         });
     }
-    
+
     return (
         <div className='absolute inset-0 h-screen w-screen backdrop-blur-lg items-center justify-center rounded-r-xl flex z-10'>
         <form className='bg-white shadow-md rounded px-12 pt-8 pb-10 mb-4'>
