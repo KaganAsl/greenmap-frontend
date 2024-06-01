@@ -4,7 +4,7 @@ import { hudBackground } from "../assets/icons";
 function HUD() {
   return (
     <div className="flex justify-center" >
-      <div className="absolute p-4 z-20 flex" style={{
+      <div className="absolute p-4 z-40 flex" style={{
       backgroundImage: `url(${hudBackground.iconUrl})`,
       backgroundSize: 'contain',
       backgroundRepeat: 'no-repeat',

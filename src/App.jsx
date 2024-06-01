@@ -27,7 +27,7 @@ function App() {
   const [reRender, setReRender] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [radius, setRadius] = useState(0);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState(0);
 
   const sessionResponse = instance.get("/session/checkSession", {
     headers: {
@@ -35,6 +35,10 @@ function App() {
     }});
 
   useEffect(() => {
+    if (Cookies.get('GreenMap_AUTH') === undefined) {
+      setLoggedIn(false);
+      return;
+    }
     sessionResponse.then((response) => {
       console.log('Response:', response.data);
       if (response.status === HttpStatusCode.Ok) {
@@ -62,8 +66,8 @@ function App() {
             setLoggedIn={setLoggedIn}
           >
             <CategoryProvider
-              categories={category}
-              setCategories={setCategory} >
+              category={category}
+              setCategory={setCategory} >
             <RadiusProvider radius={radius} setRadius={setRadius} >
             <ReRenderProvider reRender={reRender} setReRender={setReRender}>
               <HudComponent />

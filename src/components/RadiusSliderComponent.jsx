@@ -15,6 +15,7 @@ const RadiusFilterSliderComponent = ({ lat, lng }) => {
         }
         let city = {...cities[selectedCity]};
         city.radius = radiusSlider;
+        city.key = selectedCity;
         setRadius(city);
     }
 
@@ -26,10 +27,10 @@ const RadiusFilterSliderComponent = ({ lat, lng }) => {
         setSelectedCity(event.target.value);
     }
 
-
+    console.log('Radius:', radius.key, selectedCity, typeof selectedCity, typeof radius.name);
     return (
         <div className="p-4 flex flex-col">
-            <select value={selectedCity} onChange={handleCityChange} className='mb-3' required>
+            <select value={radius.key != undefined ? radius.key : selectedCity} onChange={handleCityChange} className='mb-3' required>
                 <option value="">Cities</option>
                 {cities.map((city, index) => (
                     <option key={index} value={index}>
@@ -47,7 +48,7 @@ const RadiusFilterSliderComponent = ({ lat, lng }) => {
                 className='slider'
             />
             <h3 className='font-semibold'>Radius: {radiusSlider} km</h3>
-            <button onClick={handleRadiusChange} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3'>
+            <button onClick={handleRadiusChange} className='bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-10 rounded focus:outline-none focus:shadow-outline'>
                 Apply
             </button>
         </div>

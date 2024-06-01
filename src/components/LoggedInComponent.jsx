@@ -7,10 +7,10 @@ import Cookies from 'js-cookie';
 
 
 
-function LoggedInComponent() {
+
+function LoggedInComponent({settingsButton, setSettingsButton, setLoginButton}) {
     const { loggedIn, setLoggedIn } = useLoggedIn();
-    const [loginButton, setLoginButton] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('');
+
 
     const handleLogout = () => {
         instance.post("/logout", null, {
@@ -26,8 +26,13 @@ function LoggedInComponent() {
         });
     };
 
+    const handleSettingsButtonChange = () => {
+        setSettingsButton(!settingsButton);
+        setLoginButton(false);
+    }
+
     return (
-        <div className="bg-gray-200 p-4 mt-12 rounded-lg z-10">
+        <div className="bg-gray-200 p-4 mt-12 rounded-lg z-20">
             <div className='flex border border-green-700 rounded-2xl'>
                 <div className='flex p-1'>
                 <button className='flex items-center justify-center' onClick={handleLogout}>
@@ -38,7 +43,7 @@ function LoggedInComponent() {
             </div>
             <div className='flex flex-row mt-2 border border-green-700 rounded-2xl'>
                 <div className='flex p-1'>
-                    <button className='flex items-center justify-center'>
+                    <button className='flex items-center justify-center' onClick={handleSettingsButtonChange}>
                         <img src={settingsIcon.iconUrl} className='p-2' alt="Login" />
                         <h2 className='flex items-center p-1'>Settings</h2>
                     </button>

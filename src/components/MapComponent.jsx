@@ -7,7 +7,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { blueIcon, redIcon } from "../assets/icons";
-import { useReRender, useSelectedMarker, useTempMarker, useRadius } from "./Context";
+import { useReRender, useSelectedMarker, useTempMarker, useRadius, useCategory } from "./Context";
 import instance from "../js/connection";
 import * as L from "leaflet";
 import { outerBounds, calculateBounds } from "../js/utils";
@@ -20,6 +20,7 @@ function MapComponent({}) {
   const { tempMarker, setTempMarker } = useTempMarker();
   const { reRender, setReRender } = useReRender();
   const { radius, setRadius } = useRadius();
+  const { category, setCategory } = useCategory();
 
   const [markers, setMarkers] = useState([]);
 
@@ -49,12 +50,34 @@ function MapComponent({}) {
             item.category.id,
             item.category.type
           );
-          if (radius.radius !== 0 ){
+          if (radius !== 0 && radius.radius !== 0){
             if (newMarker.location.lat >= bounds[0][0] && newMarker.location.lat < bounds[1][0] && newMarker.location.lng >= bounds[0][1] && newMarker.location.lng < bounds[1][1]){
               setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
             }
+            if (category !== 0) {
+              if (newMarker.category_id == category && markers != undefined && markers.length > 0){
+                //setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+                // is markers contains newmarker inside pass
+                let isExist = false;
+                let newMarkers = [];
+                markers.map((marker) => {
+                  if (marker.id == newMarker.id){
+                    newMarkers.push(marker);
+                  }
+                });
+                if (newMarkers.length > 0) {
+                  setMarkers(newMarkers);
+                }
+              }
+            }
           } else {
-            setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+            if (category !== 0) {
+              if (newMarker.category_id == category && markers != undefined && markers.length > 0){
+                setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+              }
+            } else {
+              setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+            }
           }
 
         });
@@ -65,7 +88,7 @@ function MapComponent({}) {
     };
 
     fetchDataFromConnection();
-  }, [reRender, tempMarker, selectedMarker, radius]);
+  }, [reRender, tempMarker, selectedMarker, radius, category]);
 
   // In this component it uses tempMarker to show the marker that is being created
   // But inside the app selected marker is used to show the marker that is being created

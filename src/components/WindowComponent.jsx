@@ -41,9 +41,6 @@ const WindowComponent = ({}) => {
           "px-8 pt-6 pb-8 mb-4 m-2 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:mr-3 bg-white border rounded-2xl shadow-md z-10 xs:w-[90vw] md:w-[40vw] lg:w-[30vw]  "
         }
       >
-        <h3 className="text-lg font-semibold mb-4 break-words">
-          Details Of Pin
-        </h3>
         <p className="mb-2 hidden">Marker ID: {selectedMarker.id}</p>
         <p className="mb-2 hidden">Latitude: {selectedMarker.location.lat}</p>
         <p className="mb-2 hidden">Longitude: {selectedMarker.location.long}</p>
