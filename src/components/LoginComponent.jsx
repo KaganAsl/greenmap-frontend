@@ -3,7 +3,7 @@ import { loginIcon } from '../assets/icons';
 import { useLoggedIn } from './Context';
 import { useState, useEffect } from 'react';
 import instance from '../js/connection';
-import LoginCredentials from './LoginCredientals';
+import LoginCredentials from './LoginCredentials';
 import LoggedInComponent from './LoggedInComponent';
 
 
