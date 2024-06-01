@@ -9,12 +9,17 @@ import { useRadius, useCategory } from './Context';
 function MenuComponent() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [filterOpen, setFilterOpen] = useState(false);
+    const [selectedCity, setSelectedCity] = useState('');
+    const [radiusSlider, setRadiusSlider] = useState(0);
     const { radius, setRadius } = useRadius();
     const { category, setCategory } = useCategory();
+
 
     const handleRemoveFilters = () => {
         setRadius({radius: 0});
         setCategory(0);
+        setSelectedCity('');
+        setRadiusSlider(0);
     };
 
     const handleButtonClick = () => {
@@ -74,7 +79,7 @@ function MenuComponent() {
                             )}
                         </div>
                         <div className="p-4 flex flex-col ">
-                            {filterOpen ? <RadiusFilterSliderComponent /> : null}
+                            {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider}/> : null}
                             {filterOpen ? <CategoryFilterComponent /> : null}
                             {filterOpen ? (
                                 <button onClick={handleRemoveFilters} className='ml-4 mr-4 pt-2 pb-2 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>

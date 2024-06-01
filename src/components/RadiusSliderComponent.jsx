@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cities from '../js/cities';
 import { useRadius } from './Context';
 import { useState } from 'react';
 
-const RadiusFilterSliderComponent = ({ lat, lng }) => {
+const RadiusFilterSliderComponent = ({ selectedCity, setSelectedCity, radiusSlider, setRadiusSlider }) => {
     const { radius, setRadius } = useRadius();
-    const [radiusSlider, setRadiusSlider] = useState(0);
-    const [selectedCity, setSelectedCity] = useState('');
 
     const handleRadiusChange = (event) => {
         if (selectedCity === '') {
@@ -27,7 +25,13 @@ const RadiusFilterSliderComponent = ({ lat, lng }) => {
         setSelectedCity(event.target.value);
     }
 
-    console.log('Radius:', radius.key, selectedCity, typeof selectedCity, typeof radius.name);
+    useEffect(() => {
+        if (radius.key != undefined) {
+            setSelectedCity(radius.key);
+            setRadiusSlider(radius.radius);
+        }
+    }, []);
+
     return (
         <div className="p-4 flex flex-col">
             <select value={radius.key != undefined ? radius.key : selectedCity} onChange={handleCityChange} className='mb-3' required>

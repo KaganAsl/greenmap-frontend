@@ -40,6 +40,18 @@ function SettingsPageComponent({setSettingsButton}) {
         setSettingsButton(false);
     }
 
+    const handleUpdateAccount = () => {
+        instance.post("/user/updateUser", {
+            username: username,
+            email: email,
+            password: password,
+        }).then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.error("Error updating user data:", error);
+        });
+    }
+
     return (
         <div className='absolute inset-0 bg-white h-screen w-screen items-center justify-start rounded-r-xl flex z-30'>
             <form className='bg-white rounded px-12 pt-8 pb-10 mb-4 ml-6 flex flex-col'>
@@ -90,14 +102,14 @@ function SettingsPageComponent({setSettingsButton}) {
                     <button
                         className='border-4 rounded-lg text-custom-green hover:text-white hover:bg-custom-green font-bold py-2 px-6 mb-6 focus:outline-none focus:shadow-outline'
                         type='button'
-                        //onClick={handleLogout}
+                        onClick={handleUpdateAccount}
                     >
                         Update Credientals
                     </button>
                     <button
                         className='border-4 rounded-lg text-red-500 hover:text-white hover:bg-red-700 font-bold py-2 px-10 mb-6 focus:outline-none focus:shadow-outline'
                         type='button'
-                        //onClick={handleButtonClick}
+                        onClick={handleDeleteAccount}
                     >
                         Delete Account
                     </button>
