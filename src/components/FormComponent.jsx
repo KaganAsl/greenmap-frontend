@@ -10,9 +10,7 @@ const FormComponent = ({ formData, setFormData }) => {
   const { reRender, setReRender } = useReRender();
   const [categories, setCategories] = useState([]);
   const [file, setFile] = useState(null);
-  const [fileName, setFileName
-  ] = useState(null);
-  const [filePreview, setFilePreview] = useState(null);
+  const [fileName, setFileName] = useState(null);
   const [Error, setError] = useState("");
 
   const handleWindowClose = () => {
@@ -93,7 +91,11 @@ const FormComponent = ({ formData, setFormData }) => {
         return response.data;
       } catch (error) {
         console.error("Error sending form data:", error);
-        setError(error.response.data);
+        if (error.response && error.response.status === 401) {
+          setError("Please login to save pins");
+        } else {
+          setError("An error occurred while saving the pin. Please try again.");
+        }
       }
     };
     submitData(formData, file);
