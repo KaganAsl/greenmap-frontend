@@ -29,24 +29,32 @@ function App() {
   const [radius, setRadius] = useState(0);
   const [category, setCategory] = useState(0);
 
-  const sessionResponse = instance.get("/session/checkSession", {
-    headers: {
-      "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
-    }});
-
   useEffect(() => {
     if (Cookies.get('GreenMap_AUTH') === undefined) {
       setLoggedIn(false);
       return;
     }
-    sessionResponse.then((response) => {
-      console.log('Response:', response.data);
-      if (response.status === HttpStatusCode.Ok) {
-        setLoggedIn(true);
+
+    instance.get("/session/checkSession", {
+      headers: {
+        "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
       }
-    }).catch((error) => {
-      if (error.response.status === HttpStatusCode.Unauthorized) {
+    })
+    .then((response) => {
+      if (response.status === 200) { // HttpStatusCode.Ok is typically 200
+        setLoggedIn(true);
+      } else {
+        // Handle other status codes here
+        console.error(`Unexpected status code: ${response.status}`);
         setLoggedIn(false);
+      }
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 401) { // HttpStatusCode.Unauthorized is typically 401
+        setLoggedIn(false);
+      } else {
+        // Log the error message for unexpected errors
+        console.error(`Error checking session: ${error.message}`);
       }
     });
   }, []);

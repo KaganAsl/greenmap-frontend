@@ -3,6 +3,7 @@ import instance from "../js/connection";
 import Cookies from "js-cookie";
 import { useSelectedMarker, useTempMarker, useReRender } from "./Context";
 import { edit2Icon, edit1Icon, imageIcon } from "../assets/icons";
+import { HttpStatusCode } from "axios";
 
 const FormComponent = ({ formData, setFormData }) => {
   const { selectedMarker, setSelectedMarker } = useSelectedMarker();
@@ -90,8 +91,7 @@ const FormComponent = ({ formData, setFormData }) => {
         setTempMarker(null);
         return response.data;
       } catch (error) {
-        console.error("Error sending form data:", error);
-        if (error.response && error.response.status === 401) {
+        if (error.response && error.response.status === HttpStatusCode.Unauthorized) {
           setError("Please login to save pins");
         } else {
           setError("An error occurred while saving the pin. Please try again.");
