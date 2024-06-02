@@ -1,11 +1,9 @@
-import react, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import instance from '../js/connection';
 import Cookies from 'js-cookie';
 import { useLoggedIn } from './Context';
-import { data } from 'autoprefixer';
 
-function SettingsPageComponent({setSettingsButton}) {
-
+const SettingsPageComponent = ({ setSettingsButton }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +13,6 @@ function SettingsPageComponent({setSettingsButton}) {
     const { loggedIn, setLoggedIn } = useLoggedIn();
 
     useEffect(() => {
-        // Fetch user data
         const token = Cookies.get('GreenMap_AUTH');
         const base64 = token.replace(/-/g, '+').replace(/_/g, '/');
         const usernameToken = atob(base64).split('_')[0];
@@ -26,49 +23,49 @@ function SettingsPageComponent({setSettingsButton}) {
         }).then((response) => {
             setUsername(response.data.username);
             setEmail(response.data.email);
-        }
-        ).catch((error) => {
+        }).catch((error) => {
             console.error("Error fetching user data:", error);
         });
     }, []);
 
     const handleInputChange = (event) => {
-        if (event.target.id === 'username') {
-            setUsername(event.target.value);
-        } else if (event.target.id === 'email') {
-            setEmail(event.target.value);
-        } else if (event.target.id === 'password') {
-            setPassword(event.target.value);
+        const { id, value } = event.target;
+        if (id === 'username') {
+            setUsername(value);
+        } else if (id === 'email') {
+            setEmail(value);
+        } else if (id === 'password') {
+            setPassword(value);
         }
-    }
+    };
 
     const handleClose = () => {
         setSettingsButton(false);
-    }
+    };
 
     const handleUpdateAccount = () => {
         instance.post("/user/updateUser", {
             username: username,
             email: email,
             password: password,
-        }).then((response) => {
+        }).then(() => {
             setInfo("User data updated successfully");
-        }).catch((error) => {
+        }).catch(() => {
             setError("Error updating user data");
         });
-    }
+    };
 
     const handleDeleteAccount = () => {
         instance.post("/logout", null, {
             headers: {
                 "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
             },
-        }).then((response) => {
+        }).then(() => {
             instance.delete("/user/deleteUser", {
                 data: {
                     username: username,
                 }
-            }).then((response) => {
+            }).then(() => {
                 setInfo("User data deleted successfully");
             }).catch((error) => {
                 console.error("Error deleting user data:", error);
@@ -80,73 +77,90 @@ function SettingsPageComponent({setSettingsButton}) {
         }).catch((error) => {
             console.error("Error logging out:", error);
         });
-    }
+    };
 
     return (
-        <div className='absolute inset-0 bg-white h-screen w-screen items-center justify-start rounded-r-xl flex z-30'>
-            <form className='bg-white rounded px-12 pt-8 pb-10 mb-4 ml-6 flex flex-col'>
-                <div className='mb-10'>
-                    <h1 className='font-bold text-2xl'>Settings</h1>
+        <div className='absolute inset-0 h-screen w-screen backdrop-blur-lg items-center justify-center flex z-10'>
+            <form className='bg-white shadow-md rounded px-12 pt-8 pb-10 mb-4'>
+                <h2 className="mt-0 mb-5 text-center text-xl leading-9 tracking-tight text-gray-900">
+                    Settings
+                </h2>
+                <div className='mb-4'>
+                    <div className='flex items-center border rounded shadow appearance-none w-full'>
+                    <i className='p-1 ml-2'>
+             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+        </i>
+                        <label className='block text-gray-700 text-sm font-semibold mr-4 ml-2' htmlFor='username'>
+                            Username
+                        </label>
+                        <input
+                            className='shadow appearance-none w-full py-2 px-5 ml-0 text-gray-700 leading-tight focus:outline-none'
+                            id='username'
+                            type='text'
+                            value={username}
+                            onChange={handleInputChange}
+                        />
+                    </div>
                 </div>
-                <div className='flex flex-row mb-4 items-center'>
-                    <label className='block text-gray-700 text-sm font-bold mr-20' htmlFor='username'>
-                        Username
-                    </label>
-                    <input
-                        className='appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        id='username'
-                        type='text'
-                        placeholder="Something gone wrong!"
-                        value={username}
-                        onChange={handleInputChange}
-                    />
+                <div className='mb-4'>
+                    <div className='flex items-center border rounded shadow appearance-none w-full'>
+                    <i className='p-1 ml-2'>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" /></svg>       </i>
+
+                        <label className='block text-gray-700 text-sm font-semibold ml-2' htmlFor='email'>
+                            Email
+                        </label>
+                        <input
+                            className='shadow appearance-none w-full py-2 px-5 ml-11 text-gray-700 leading-tight focus:outline-none'
+                            id='email'
+                            type='email'
+                            value={email}
+                            onChange={handleInputChange}
+                            readOnly
+                        />
+                    </div>
                 </div>
-                <div className='flex flex-row mb-4 items-center'>
-                    <label className='block text-gray-700 text-sm font-bold mr-28' htmlFor='username'>
-                        Email
-                    </label>
-                    <input
-                        className='appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        id='email'
-                        type='email'
-                        readOnly={true}
-                        placeholder="Something gone wrong!"
-                        value={email}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className='flex flex-row mb-20 items-center'>
-                    <label className='block text-gray-700 text-sm font-bold mr-20' htmlFor='username'>
-                        Password
-                    </label>
-                    <input
-                        className='appearance-none border rounded-r-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                        id='password'
-                        type='password'
-                        placeholder="Enter New Password"
-                        onChange={handleInputChange}
-                        value={password}
-                    />
+                <div className='mb-4'>
+                    <div className='flex items-center border rounded shadow appearance-none w-full'>
+                    <i className='p-1 ml-2'>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z" /></svg>
+                        </i>
+                        <label className='block text-gray-700 text-sm font-semibold mr-4 ml-2' htmlFor='password'>
+                            Password
+                        </label>
+                        <input
+                            className='shadow appearance-none w-full py-2 px-5 ml-1 text-gray-700 leading-tight focus:outline-none'
+                            id='password'
+                            type='password'
+                            value={password}
+                            onChange={handleInputChange}
+                            placeholder="Enter New Password"
+                        />
+                    </div>
                 </div>
                 {info && <p className='text-green-500'>{info}</p>}
                 {error && <p className='text-red-500'>{error}</p>}
-                <div className='flex flex-col items-start justify-start'>
+                <div className='flex items-center justify-center'>
                     <button
-                        className='border-4 rounded-lg text-custom-green hover:text-white hover:bg-custom-green font-bold py-2 px-6 mb-6 focus:outline-none focus:shadow-outline'
+                        className='bg-custom-green hover:bg-custom-green-hover text-white font-semibold py-2 px-4 mt-5 w-full rounded focus:outline-none focus:shadow-outline mb-4'
                         type='button'
                         onClick={handleUpdateAccount}
                     >
-                        Update Credientals
+                        Update Credentials
                     </button>
+                </div>
+                <div className='flex items-center justify-center'>
                     <button
-                        className='border-4 rounded-lg text-red-500 hover:text-white hover:bg-red-700 font-bold py-2 px-10 mb-6 focus:outline-none focus:shadow-outline'
+                        className='bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline mb-4'
                         type='button'
                         onClick={handleDeleteAccount}
                     >
                         Delete Account
                     </button>
+                </div>
+                <div className='flex items-center justify-center'>
                     <button
-                        className='border-4 rounded-lg  text-custom-green hover:text-white hover:bg-custom-green font-bold py-2 px-10 mb-6 focus:outline-none focus:shadow-outline'
+                        className='bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline'
                         type='button'
                         onClick={handleClose}
                     >
@@ -156,5 +170,6 @@ function SettingsPageComponent({setSettingsButton}) {
             </form>
         </div>
     );
-}
+};
+
 export default SettingsPageComponent;
