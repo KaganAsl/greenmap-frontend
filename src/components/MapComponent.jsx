@@ -51,26 +51,27 @@ function MapComponent({}) {
             item.category.type
           );
           if (radius !== 0 && radius.radius !== 0){
+            let isInside = false;
+            let isInCategory = false;
             if (newMarker.location.lat >= bounds[0][0] && newMarker.location.lat < bounds[1][0] && newMarker.location.lng >= bounds[0][1] && newMarker.location.lng < bounds[1][1]){
-              setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+              isInside = true;
             }
             if (category !== 0) {
               if (newMarker.category_id == category && markers != undefined && markers.length > 0){
                 //setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
                 // is markers contains newmarker inside pass
-                let isExist = false;
-                let newMarkers = [];
-                markers.map((marker) => {
-                  if (marker.id == newMarker.id){
-                    newMarkers.push(marker);
-                  }
-                });
-                if (newMarkers.length > 0) {
-                  setMarkers(newMarkers);
-                }
+                isInCategory = true;
+              }
+              if (isInside && isInCategory){
+                setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+              }
+            } else {
+              if (isInside){
+                setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
               }
             }
           } else {
+
             if (category !== 0) {
               if (newMarker.category_id == category && markers != undefined && markers.length > 0){
                 setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
