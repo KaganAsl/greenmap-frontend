@@ -8,7 +8,7 @@ import { useRadius, useCategory } from './Context';
 
 function MenuComponent() {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [filterOpen, setFilterOpen] = useState(false);
+    const [filterOpen, setFilterOpen] = useState(true);
     const [selectedCity, setSelectedCity] = useState('');
     const [radiusSlider, setRadiusSlider] = useState(0);
     const { radius, setRadius } = useRadius();
@@ -52,7 +52,7 @@ function MenuComponent() {
                             <div className='p-1'>
                                 <h2 className="font-semibold">Filter Pins</h2>
                             </div>
-                            
+
                         </div>
                         <div className="p-4 flex flex-col ">
                             {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider}/> : null}
