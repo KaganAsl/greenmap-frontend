@@ -33,7 +33,7 @@ const RadiusFilterSliderComponent = ({ selectedCity, setSelectedCity, radiusSlid
     }, []);
 
     return (
-        <div className="p-4 flex flex-col">
+        <div className="p-4 flex flex-col border rounded-xl">
             <h2 className='font-bold mb-3'>By Radius</h2>
             <select value={radius.key != undefined ? radius.key : selectedCity} onChange={handleCityChange} className='mb-3' required>
                 <option value="">Select city</option>
