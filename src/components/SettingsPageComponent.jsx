@@ -11,6 +11,8 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
     const [info, setInfo] = useState('');
     const [showModal, setShowModal] = useState(false);  // State for modal visibility
     const [confirmPassword, setConfirmPassword] = useState('');  // State for confirm password
+    const [passwordValid, setPasswordValid] = useState(true);
+    const [confirmPasswordValid, setConfirmPasswordValid] = useState(true);
 
     const { loggedIn, setLoggedIn } = useLoggedIn();
 
@@ -49,9 +51,21 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
         if (!password || !confirmPassword) {
             setError("Please fill in the required fields");
             setInfo("");
+            if (!password && !confirmPassword) {
+                setPasswordValid(false);
+                setConfirmPasswordValid(false);
+            } else if (!password) {
+                setPasswordValid(false);
+                setConfirmPasswordValid(true);
+            } else if (!confirmPassword) {
+                setConfirmPasswordValid(false);
+                setPasswordValid(true);
+            }
             return;
         } else if (password !== confirmPassword) {
             setError("Passwords do not match");
+            setPasswordValid(false);
+            setConfirmPasswordValid(false);
             setInfo("");
             return;
         }
@@ -62,6 +76,10 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
         }).then(() => {
             setInfo("User data updated successfully");
             setError('');
+            setPasswordValid(true);
+            setConfirmPasswordValid(true);
+            setPassword('');
+            setConfirmPassword('');
         }).catch(() => {
             setError("Error updating user data");
             setInfo("");
@@ -171,7 +189,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                     </div>
                 </div>
                 <div className='mb-4'>
-                    <div className='flex items-center border rounded shadow appearance-none w-full'>
+                    <div className={`flex items-center border rounded shadow appearance-none w-full ${!passwordValid ? 'border-2 border-red-500 shadow-[0_0_5px_rgba(255,0,0,0.5)]' : ''}`}>
                     <i className='p-1 ml-2'>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z" /></svg>
                         </i>
@@ -189,7 +207,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                     </div>
                 </div>
                 <div className='mb-4'>
-                    <div className='flex items-center border rounded shadow appearance-none w-full'>
+                    <div className={`flex items-center border rounded shadow appearance-none w-full ${!confirmPasswordValid ? 'border-2 border-red-500 shadow-[0_0_5px_rgba(255,0,0,0.5)]' : ''}`}>
                     <i className='p-1 ml-2'>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm240-120q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z" /></svg>
                         </i>
