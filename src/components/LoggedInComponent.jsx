@@ -31,20 +31,20 @@ function LoggedInComponent({settingsButton, setSettingsButton, setLoginButton}) 
     }
 
     return (
-        <div className="bg-gray-200 p-4 mt-12 rounded-lg z-20">
-            <div className='flex border border-green-700 rounded-2xl'>
+        <div className="bg-white p-4 mt-12 rounded-lg z-20">
+            <div className='flex border rounded-xl'>
                 <div className='flex p-1'>
                 <button className='flex items-center justify-center' onClick={handleLogout}>
                     <img src={logoutIcon.iconUrl} className='p-2' alt="Login" />
-                    <h2 className='flex items-center p-1'>Logout </h2>
+                    <h2 className='flex font-semibold text-zinc-500 items-center p-1'>Logout </h2>
                 </button>
                 </div>
             </div>
-            <div className='flex flex-row mt-2 border border-green-700 rounded-2xl'>
+            <div className='flex flex-row mt-2 border  rounded-xl'>
                 <div className='flex p-1'>
                     <button className='flex items-center justify-center' onClick={handleSettingsButtonChange}>
                         <img src={settingsIcon.iconUrl} className='p-2' alt="Login" />
-                        <h2 className='flex items-center p-1'>Settings</h2>
+                        <h2 className='flex font-semibold text-zinc-500 items-center p-1'>Settings</h2>
                     </button>
                     </div>
                 </div>
