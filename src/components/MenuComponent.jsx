@@ -54,11 +54,11 @@ function MenuComponent() {
                             </div>
 
                         </div>
-                        <div className="p-4 flex flex-col ">
+                        <div className="p-4 flex flex-col">
                             {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider}/> : null}
                             {filterOpen ? <CategoryFilterComponent /> : null}
                             {filterOpen ? (
-                                <button onClick={handleRemoveFilters} className='ml-4 mr-4 pt-2 pb-2 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                <button onClick={handleRemoveFilters} className='ml-4 mr-4 pb-2 mt-10 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                                     Remove Filters
                                 </button>
                             ) : null}
