@@ -2,7 +2,7 @@ import react from 'react';
 import RadiusFilterSliderComponent from './RadiusSliderComponent';
 import CategoryFilterComponent from './CategoryFilterComponent';
 import { useState } from 'react';
-import { burgerIcon, closeIcon, downIcon, filterIcon, searchIcon, upIcon} from '../assets/icons';
+import { burgerIcon, closeIcon, downIcon, filterIcon, searchIcon, upIcon } from '../assets/icons';
 import { useRadius, useCategory } from './Context';
 
 
@@ -16,14 +16,21 @@ function MenuComponent() {
 
 
     const handleRemoveFilters = () => {
-        setRadius({radius: 0});
+        setRadius({ radius: 0, showMyPins: 0});
         setCategory(0);
         setSelectedCity('');
         setRadiusSlider(0);
     };
 
     const handleButtonClick = () => {
-       setMenuOpen(!menuOpen);
+        setMenuOpen(!menuOpen);
+    };
+
+    const handleShowMyPins = () => {
+        // 0 not set
+        // 1 no show
+        // 2 show
+        setRadius({ showMyPins: 2 });
     };
 
     if (!menuOpen) {
@@ -55,10 +62,15 @@ function MenuComponent() {
 
                         </div>
                         <div className="p-4 flex flex-col ">
-                            {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider}/> : null}
+                            {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider} /> : null}
                             {filterOpen ? <CategoryFilterComponent /> : null}
                             {filterOpen ? (
-                                <button onClick={handleRemoveFilters} className='ml-4 mr-4 pt-2 pb-2 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                <button onClick={handleShowMyPins} className='ml-4 mr-4 pt-2 pb-2 mb-10 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                    Show My Pins
+                                </button>
+                            ) : null}
+                            {filterOpen ? (
+                                <button onClick={handleRemoveFilters} className='ml-4 mr-4 pt-2 pb-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                                     Remove Filters
                                 </button>
                             ) : null}
