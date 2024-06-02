@@ -65,12 +65,12 @@ function MenuComponent() {
                             {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider} /> : null}
                             {filterOpen ? <CategoryFilterComponent /> : null}
                             {filterOpen ? (
-                                <button onClick={handleShowMyPins} className='ml-4 mr-4 pt-2 pb-2 mb-10 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                <button onClick={handleShowMyPins} className='ml-4 mr-4 pt-2 pb-2 mt-14 bg-custom-green hover:bg-custom-green-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                                     Show My Pins
                                 </button>
                             ) : null}
                             {filterOpen ? (
-                                <button onClick={handleRemoveFilters} className='ml-4 mr-4 pt-2 pb-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
+                                <button onClick={handleRemoveFilters} className='ml-4 mr-4 pt-2 pb-2 mt-5 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>
                                     Remove Filters
                                 </button>
                             ) : null}
