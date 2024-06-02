@@ -61,14 +61,7 @@ const DataComponent = ({ marker, setSelectedMarker }) => {
   return (
     <div className="flex flex-col">
 
-      <div className={`flex items-end ${marker.user_id === userID && marker.user_id !== 0 ? "justify-between" : "justify-end"}`}>
-        {marker.user_id === userID && marker.user_id !== 0 ? (
-        <button
-          className="py-2 rounded bg-red-500 text-white font-bold text-sm p-4"
-          onClick={handleDelete}
-        >
-          Delete This Pin
-        </button> ) : null}
+      <div className={`flex items-end self-end ${marker.user_id === userID && marker.user_id !== 0 ? "justify-between" : "justify-end"}`}>
         <button
           className="py-2 rounded"
           onClick={handleWindowClose}
@@ -77,7 +70,7 @@ const DataComponent = ({ marker, setSelectedMarker }) => {
         </button>
       </div>
 
-      <hr className="my-2 border-t-4" />
+    
       <div className="">
         <h1 className="font-bold text-2xl w-full h-10 mb-1 overflow-y-auto break-words">{marker.title}</h1>
       </div>
@@ -95,6 +88,13 @@ const DataComponent = ({ marker, setSelectedMarker }) => {
           <img src={`http://localhost:8080/api/v1/images/getFile?ID=${marker.photo.id}`} alt="marker" className="w-full" />
         </div>
       ) : null}
+      {marker.user_id === userID && marker.user_id !== 0 ? (
+        <button
+          className="py-2 max-w-36 self-end rounded bg-red-500 text-white font-bold text-sm p-4"
+          onClick={handleDelete}
+        >
+          Delete This Pin
+        </button> ) : null}
     </div>
   );
 };
