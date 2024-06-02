@@ -136,71 +136,69 @@ const FormComponent = ({ formData, setFormData }) => {
           </select>
         </div>
 
-        {/* Title Field */}
-        <div className="mb-4 relative">
-          <label
-            htmlFor="title"
-            className="block absolute left-10 top-3 text-sm font-bold mb-2 text-gray-700"
-          >
-            Title
-          </label>
-          <img src={edit1Icon.iconUrl} alt="description" className="absolute left-2 top-2" />
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            required={true}
-            onChange={handleChange}
-            rows="3"
-            className="mt-1 p-2 border rounded-md w-full pt-6"
-          />
-        </div>
+{/* Title Field */}
+<div className="mb-4 flex items-center relative">
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999" className="absolute left-2">
+    <path d="M432-192v-480H240v-96h480v96H528v480h-96Z"/>
+  </svg>
+  <input
+    type="text"
+    id="title"
+    name="title"
+    value={formData.title}
+    required={true}
+    onChange={handleChange}
+    className="pl-10 p-2 border rounded-md w-full"
+    placeholder="Title"
+  />
+</div>
 
-        {/* Text Field */}
-        <div className="mb-4 relative">
-
-          <label
-            htmlFor="text"
-            className="block absolute left-10 top-3 text-sm font-bold mb-2 text-gray-700"
-          >
-            Text
-          </label>
-          <img src={edit2Icon.iconUrl} alt="description" className="absolute left-2 top-2" />
-          <textarea
-            id="text"
-            name="text"
-            value={formData.text}
-            required={true}
-            onChange={handleChange}
-            rows="4"
-            className="mt-1 p-2 border rounded-md w-full pt-6"
-          />
-        </div>
+{/* Text Field */}
+<div className="mb-4 flex items-center relative">
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"className="absolute top-3 left-2">
+<path d="M120-240v-80h480v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+</svg>
+  <textarea
+    id="text"
+    name="text"
+    value={formData.text}
+    required={true}
+    onChange={handleChange}
+    rows="4"
+    className="pl-10 p-2 border rounded-md w-full"
+    placeholder="Description"
+  />
+</div>
 
 
-        {/* Photo Field */}
-        <div className="mb-4">
-          <label
-            htmlFor="photo"
-            className="block text-sm font-bold mb-2 text-gray-700"
-          >
-            Photo
-          </label>
-          <label
-            className="mt-1 p-2 border rounded-md w-full bg-white cursor-pointer inline-block"
-          >
-            <img src={imageIcon.iconUrl} alt="photo" className="inline-block mr-3" />
-            Choose a file
-            <input
-              type="file"
-              id="photo"
-              name="photo"
-              onChange={handleFileChange}
-              className="hidden" // hide the default file input
-            />
-          </label>
-        </div>
+{/* Photo Field */}
+<div className="mb-4 relative">
+  <label
+    htmlFor="photo"
+    className="block text-sm font-bold mb-2 text-gray-700"
+  >
+    Photo
+  </label>
+  <div className="relative flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999" className="absolute left-2" style={{ top: '50%', transform: 'translateY(-50%)' }}>
+      <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/>
+    </svg>
+    <label
+      className="pl-10 p-2 border rounded-md w-full bg-white cursor-pointer inline-block"
+    >
+      Choose a file
+      <input
+        type="file"
+        id="photo"
+        name="photo"
+        onChange={handleFileChange}
+        className="hidden" // hide the default file input
+      />
+    </label>
+  </div>
+</div>
+
+
 
         {/* Error Field */}
         <div className={"mb-4" + Error == "" ? "hidden" : ""}>

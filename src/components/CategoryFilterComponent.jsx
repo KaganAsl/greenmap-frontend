@@ -24,7 +24,7 @@ const CategoryFilterComponent = ({ lat, lng }) => {
         <div className='p-4 flex flex-col'>
             <h2 className='font-bold mb-3'>By Category</h2>
             <select value={category} onChange={handleCategoryChange}>
-                <option value="">Categories</option>
+                <option value="">Select category</option>
                 {categories.map(category => (
                     <option key={category.id} value={category.id}>
                         {category.type}

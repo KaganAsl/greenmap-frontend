@@ -26,17 +26,13 @@ function MenuComponent() {
        setMenuOpen(!menuOpen);
     };
 
-    const handleFilterClick = () => {
-        setFilterOpen(!filterOpen);
-    };
-
     if (!menuOpen) {
         return (
             <div className="flex justify-start">
                 <div className="absolute p-4 z-10 flex">
                     <div className="flex items-center bg-white rounded-lg">
                         <button className="" onClick={handleButtonClick}>
-                            <img src={burgerIcon.iconUrl} className='p-2' alt="Login" />
+                            <img src={filterIcon.iconUrl} className='p-2' alt="Login" />
                         </button>
                     </div>
                 </div>
@@ -53,30 +49,10 @@ function MenuComponent() {
                             </button>
                         </div>
                         <div className='flex items-center justify-evenly'>
-                            <button className='p-1'>
-                                <img src={filterIcon.iconUrl} className='p-2' alt="Filter" />
-                            </button>
-                            {/*
-                            <button className=''>
-                                <img src={searchIcon.iconUrl} className='p-2' alt="Search" />
-                            <˜/button>
-                            */}
                             <div className='p-1'>
-                                <h2 className="font-bold">Filter</h2>
+                                <h2 className="font-semibold">Filter Pins</h2>
                             </div>
-                            {filterOpen ? (
-                                <div>
-                                    <button className='' onClick={handleFilterClick}>
-                                        <img src={downIcon.iconUrl} className='p-2' alt="Down" />
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className=''>
-                                    <button className='' onClick={handleFilterClick}>
-                                        <img src={upIcon.iconUrl} className='p-2' alt="Down" />
-                                    </button>
-                                </div>
-                            )}
+                            
                         </div>
                         <div className="p-4 flex flex-col ">
                             {filterOpen ? <RadiusFilterSliderComponent selectedCity={selectedCity} setSelectedCity={setSelectedCity} radiusSlider={radiusSlider} setRadiusSlider={setRadiusSlider}/> : null}
