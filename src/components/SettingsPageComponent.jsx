@@ -149,9 +149,18 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
     return (
         <div className='absolute inset-0 h-screen w-screen backdrop-blur-lg items-center justify-center flex z-10'>
             <form className='bg-white shadow-md rounded px-16 pt-8 pb-10 mb-4'>
-                <h2 className="mt-0 mb-5 text-center text-xl leading-9 tracking-tight text-gray-900">
-                    Settings
-                </h2>
+                <div className='flex items-center justify-between p-6'>
+                    <h2 className="flex-1 text-center text-xl leading-9 tracking-tight text-gray-900">
+                        Settings
+                    </h2>
+                    <button
+                        className='flex items-center p-1 text-white rounded'
+                        type='button'
+                        onClick={handleClose}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </button>
+                </div>
                 <div className='mb-4 bg-gray-100'>
                     <div className='flex items-center border rounded shadow appearance-none w-full'>
                     <i className='p-1 ml-2'>
@@ -242,15 +251,6 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                         onClick={handleShowModal}  // Changed to show modal
                     >
                         Delete Account
-                    </button>
-                </div>
-                <div className='flex items-center justify-center'>
-                    <button
-                        className='bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline'
-                        type='button'
-                        onClick={handleClose}
-                    >
-                        Close
                     </button>
                 </div>
             </form>
