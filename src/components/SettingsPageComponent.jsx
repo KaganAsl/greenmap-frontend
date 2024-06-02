@@ -9,6 +9,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [info, setInfo] = useState('');
+    const [showModal, setShowModal] = useState(false);  // State for modal visibility
 
     const { loggedIn, setLoggedIn } = useLoggedIn();
 
@@ -78,6 +79,42 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
             console.error("Error logging out:", error);
         });
     };
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+    
+    const handleConfirmDelete = () => {
+        setShowModal(false);
+        handleDeleteAccount();
+    };
+    
+    const handleCancelDelete = () => {
+        setShowModal(false);
+    };
+
+    const ConfirmationModal = ({ onConfirm, onCancel }) => (
+        <div className='fixed inset-0 flex items-center justify-center z-20'>
+            <div className='absolute inset-0 bg-black opacity-50'></div> {/* Overlay */}
+            <div className='bg-white p-6 rounded shadow-md z-30'>
+                <h2 className='text-lg mb-4'>Are you sure you want to delete your account?</h2>
+                <div className='flex justify-end'>
+                    <button
+                        className='bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 mr-2 rounded'
+                        onClick={onConfirm}
+                    >
+                        Yes, Delete
+                    </button>
+                    <button
+                        className='bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded'
+                        onClick={onCancel}
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    );    
 
     return (
         <div className='absolute inset-0 h-screen w-screen backdrop-blur-lg items-center justify-center flex z-10'>
@@ -153,7 +190,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                     <button
                         className='bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline mb-4'
                         type='button'
-                        onClick={handleDeleteAccount}
+                        onClick={handleShowModal}  // Changed to show modal
                     >
                         Delete Account
                     </button>
@@ -168,6 +205,12 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                     </button>
                 </div>
             </form>
+            {showModal && (
+                <ConfirmationModal
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            )}
         </div>
     );
 };
