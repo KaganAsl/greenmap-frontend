@@ -182,7 +182,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                             Username
                         </label>
                         <input
-                            className='shadow appearance-none w-full py-2 px-7 ml-0 text-gray-700 leading-tight focus:outline-none bg-gray-100'
+                            className='shadow appearance-none w-full py-2 px-4 ml-0 text-gray-700 leading-tight focus:outline-none bg-gray-100'
                             id='username'
                             type='text'
                             value={username}
