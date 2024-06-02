@@ -9,6 +9,8 @@ function SettingsPageComponent({setSettingsButton}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [info, setInfo] = useState('');
 
     const { loggedIn, setLoggedIn } = useLoggedIn();
 
@@ -50,9 +52,9 @@ function SettingsPageComponent({setSettingsButton}) {
             email: email,
             password: password,
         }).then((response) => {
-            console.log(response);
+            setInfo("User data updated successfully");
         }).catch((error) => {
-            console.error("Error updating user data:", error);
+            setError("Error updating user data");
         });
     }
 
@@ -67,9 +69,10 @@ function SettingsPageComponent({setSettingsButton}) {
                     username: username,
                 }
             }).then((response) => {
-                console.log(response);
+                setInfo("User data deleted successfully");
             }).catch((error) => {
                 console.error("Error deleting user data:", error);
+                setError("Error deleting user data");
             });
             Cookies.remove('GreenMap_AUTH');
             setSettingsButton(false);
@@ -125,6 +128,8 @@ function SettingsPageComponent({setSettingsButton}) {
                         value={password}
                     />
                 </div>
+                {info && <p className='text-green-500'>{info}</p>}
+                {error && <p className='text-red-500'>{error}</p>}
                 <div className='flex flex-col items-start justify-start'>
                     <button
                         className='border-4 rounded-lg text-custom-green hover:text-white hover:bg-custom-green font-bold py-2 px-6 mb-6 focus:outline-none focus:shadow-outline'
