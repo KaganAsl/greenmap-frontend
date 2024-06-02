@@ -21,6 +21,7 @@ function MapComponent({}) {
   const { reRender, setReRender } = useReRender();
   const { radius, setRadius } = useRadius();
   const { category, setCategory } = useCategory();
+  const [userID, setUserID] = useState(0);
 
   const [markers, setMarkers] = useState([]);
 
@@ -31,56 +32,62 @@ function MapComponent({}) {
   useEffect(() => {
     const fetchDataFromConnection = async () => {
       try {
-        const response = await instance.get("/pin/getAllPins");
-        const bounds = calculateBounds(radius)
-        setMarkers([]);
-        response.data.map((item) => {
-          const newMarker = new MarkerStructure(
-            parseFloat(item.location.lat),
-            parseFloat(item.location.lng),
-            item.user_ip,
-            item.title,
-            item.text,
-            {
-              id: item.photo.id,
-              name: item.photo.name,
-              link: item.photo.link,
-            },
-            item.id,
-            item.category.id,
-            item.category.type
-          );
-          if (radius !== 0 && radius.radius !== 0){
-            let isInside = false;
-            let isInCategory = false;
-            if (newMarker.location.lat >= bounds[0][0] && newMarker.location.lat < bounds[1][0] && newMarker.location.lng >= bounds[0][1] && newMarker.location.lng < bounds[1][1]){
-              isInside = true;
+        const token = Cookies.get('GreenMap_AUTH');
+        if (token !== undefined) {
+          const base64 = token.replace(/-/g, '+').replace(/_/g, '/');
+          const usernameToken = atob(base64).split('_')[0];
+          instance.get("/user/getUserByUsername", {
+            params: {
+              username: usernameToken,
             }
-            if (category !== 0) {
-              if (newMarker.category_id == category && markers != undefined && markers.length > 0){
-                //setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
-                // is markers contains newmarker inside pass
-                isInCategory = true;
-              }
-              if (isInside && isInCategory){
-                setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
-              }
-            } else {
-              if (isInside){
-                setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
-              }
-            }
-          } else {
+          }).then((response) => {
+            setUserID(response.data.id);
+          }
+          ).catch((error) => {
+            setUserID(0);
+          });
+        } else {
+          setUserID(0);
+        }
 
-            if (category !== 0) {
-              if (newMarker.category_id == category && markers != undefined && markers.length > 0){
+        instance.get("/pin/getAllPins").then((res) => {;
+          const bounds = calculateBounds(radius)
+          setMarkers([]);
+          res.data.map((item) => {
+            const newMarker = new MarkerStructure(
+              parseFloat(item.location.lat),
+              parseFloat(item.location.lng),
+              item.user_ip,
+              item.title,
+              item.text,
+              {
+                id: item.photo.id,
+                name: item.photo.name,
+                link: item.photo.link,
+              },
+              item.id,
+              item.category.id,
+              item.category.type,
+              item.user_id
+            );
+            if (radius !== 0 && radius.showMyPins !== 0 && newMarker.user_id !== undefined && userID !== 0 && newMarker.user_id === userID) {
+              setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
+              return;
+            }
+
+            if (radius !== 0 && radius.radius !== 0) {
+              const isInside = newMarker.location.lat >= bounds[0][0] && newMarker.location.lat < bounds[1][0] && newMarker.location.lng >= bounds[0][1] && newMarker.location.lng < bounds[1][1];
+              const isInCategory = parseInt(category) !== 0 && newMarker.category_id == parseInt(category) && markers && markers.length > 0;
+
+              if (isInside && (isInCategory || parseInt(category) === 0)) {
                 setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
               }
-            } else {
+            } else if (parseInt(category) === 0 || (newMarker.category_id === parseInt(category))) {
               setMarkers((prevMarkers) => [...prevMarkers, newMarker.serialize()]);
             }
-          }
-
+          });
+        }).catch((error) => {
+          console.error("Error fetching pins:", error);
         });
         return;
       } catch (error) {
@@ -91,7 +98,7 @@ function MapComponent({}) {
     fetchDataFromConnection();
   }, [reRender, tempMarker, selectedMarker, radius, category]);
 
-  // In this component it uses tempMarker to show the marker that is being created
+  // In this component it uses tempMarker to show the marker tha t is being created
   // But inside the app selected marker is used to show the marker that is being created
   // So when selectedMarker is null, it means that the marker is not being created
   // So it sets the tempMarker to null
@@ -113,7 +120,9 @@ function MapComponent({}) {
           "",
           "",
           "",
-          Date.now()
+          "",
+          "",
+
         );
         setSelectedMarker(newMarker.serialize());
         setTempMarker(newMarker.serialize());

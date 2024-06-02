@@ -66,12 +66,9 @@ const FormComponent = ({ formData, setFormData }) => {
     newFormData.location.lng = longitudeString;
 
     newFormData.category_id = parseInt(newFormData.category_id);
-    //let file = newFormData.photo;
     delete newFormData.photo;
 
-    setFormData(newFormData);
-
-    console.log("Form Data:", newFormData, file);
+    //setFormData(newFormData);
 
     const submitData = async (formData, file) => {
       try {
@@ -85,7 +82,6 @@ const FormComponent = ({ formData, setFormData }) => {
             "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
           },
         });
-        console.log("Response:", response.data);
         setError("");
         setSelectedMarker(null);
         setTempMarker(null);
@@ -98,8 +94,28 @@ const FormComponent = ({ formData, setFormData }) => {
         }
       }
     };
-    submitData(formData, file);
-    setReRender(!reRender);
+
+    const token = Cookies.get('GreenMap_AUTH');
+    if (token === undefined) {
+        setError("Please login to save pins");
+        return;
+    }
+    const base64 = token.replace(/-/g, '+').replace(/_/g, '/');
+    const usernameToken = atob(base64).split('_')[0];
+    instance.get("/user/getUserByUsername", {
+        params: {
+            username: usernameToken,
+        }
+    }).then((response) => {
+        console.log("Response:", response.data);
+        newFormData.user_id = response.data.id;
+        submitData(formData, file);
+        setReRender(!reRender);
+    }
+    ).catch((error) => {
+        setError("Error fetching user data");
+    });
+
   };
 
   useEffect(() => {
