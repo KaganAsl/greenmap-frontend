@@ -51,8 +51,10 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
             password: password,
         }).then(() => {
             setInfo("User data updated successfully");
+            setError('');
         }).catch(() => {
             setError("Error updating user data");
+            setInfo("");
         });
     };
 
@@ -136,6 +138,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                             type='text'
                             value={username}
                             onChange={handleInputChange}
+                            readOnly
                         />
                     </div>
                 </div>
