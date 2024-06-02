@@ -29,8 +29,8 @@ function LoginComponent() {
                 </div>
             </div>
             <div className={"flex absolute p-4 justify-end " +  (!loggedIn || settingsButton ? "inset-0" : "left-auto right-0")}>
-            {loginButton && !loggedIn ? <LoginCredentials /> : null}
-            {loginButton && loggedIn ? <LoggedInComponent settingsButton={settingsButton} setSettingsButton={setSettingsButton} setLoginButton={setLoginButton} /> : null}
+            {(loginButton && !loggedIn) ? <LoginCredentials /> : null}
+            {(loginButton && loggedIn) ? <LoggedInComponent settingsButton={settingsButton} setSettingsButton={setSettingsButton} setLoginButton={setLoginButton} /> : null}
             {settingsButton && loggedIn ? <SettingsPageComponent setSettingsButton={setSettingsButton}  /> : null}
             </div>
 

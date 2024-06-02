@@ -18,7 +18,6 @@ function LoggedInComponent({settingsButton, setSettingsButton, setLoginButton}) 
             "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
         },
         }).then((response) => {
-            console.log(response);
             setLoggedIn(false);
             Cookies.remove('GreenMap_AUTH');
         }).catch((error) => {

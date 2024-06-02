@@ -1,12 +1,16 @@
 import react, {useState, useEffect} from 'react';
 import instance from '../js/connection';
 import Cookies from 'js-cookie';
+import { useLoggedIn } from './Context';
+import { data } from 'autoprefixer';
 
 function SettingsPageComponent({setSettingsButton}) {
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const { loggedIn, setLoggedIn } = useLoggedIn();
 
     useEffect(() => {
         // Fetch user data
@@ -49,6 +53,29 @@ function SettingsPageComponent({setSettingsButton}) {
             console.log(response);
         }).catch((error) => {
             console.error("Error updating user data:", error);
+        });
+    }
+
+    const handleDeleteAccount = () => {
+        instance.post("/logout", null, {
+            headers: {
+                "Authorization": `${Cookies.get('GreenMap_AUTH')}`,
+            },
+        }).then((response) => {
+            instance.delete("/user/deleteUser", {
+                data: {
+                    username: username,
+                }
+            }).then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                console.error("Error deleting user data:", error);
+            });
+            Cookies.remove('GreenMap_AUTH');
+            setSettingsButton(false);
+            setLoggedIn(false);
+        }).catch((error) => {
+            console.error("Error logging out:", error);
         });
     }
 
