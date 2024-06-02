@@ -32,15 +32,7 @@ function LoggedInComponent({settingsButton, setSettingsButton, setLoginButton}) 
 
     return (
         <div className="bg-white p-4 mt-12 rounded-lg z-20">
-            <div className='flex border rounded-xl'>
-                <div className='flex p-1'>
-                <button className='flex items-center justify-center' onClick={handleLogout}>
-                    <img src={logoutIcon.iconUrl} className='p-2' alt="Login" />
-                    <h2 className='flex font-semibold text-zinc-500 items-center p-1'>Logout </h2>
-                </button>
-                </div>
-            </div>
-            <div className='flex flex-row mt-2 border  rounded-xl'>
+            <div className='flex flex-row border rounded-xl'>
                 <div className='flex p-1'>
                     <button className='flex items-center justify-center' onClick={handleSettingsButtonChange}>
                         <img src={settingsIcon.iconUrl} className='p-2' alt="Login" />
@@ -48,6 +40,15 @@ function LoggedInComponent({settingsButton, setSettingsButton, setLoginButton}) 
                     </button>
                     </div>
                 </div>
+
+            <div className='flex flex-row mt-2 border rounded-xl'>
+                <div className='flex p-1'>
+                <button className='flex items-center justify-center' onClick={handleLogout}>
+                    <img src={logoutIcon.iconUrl} className='p-2' alt="Login" />
+                    <h2 className='flex font-semibold text-zinc-500 items-center p-1'>Logout </h2>
+                </button>
+                </div>
+            </div>
         </div>
     );
 }
