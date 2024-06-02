@@ -10,7 +10,9 @@ const FormComponent = ({ formData, setFormData }) => {
   const { reRender, setReRender } = useReRender();
   const [categories, setCategories] = useState([]);
   const [file, setFile] = useState(null);
-
+  const [fileName, setFileName
+  ] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
   const [Error, setError] = useState("");
 
   const handleWindowClose = () => {
@@ -18,7 +20,18 @@ const FormComponent = ({ formData, setFormData }) => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type.startsWith('image')) {
+        setFile(file);
+        setFileName(file.name);  // Set the file name for display
+        setError("");  // Clear any previous error
+      } else {
+        setFile(null);
+        setFileName("");
+        setError("Please select an image file.");  // Set error for non-image files
+      }
+    }
   };
 
   const handleChange = (e) => {
@@ -173,26 +186,23 @@ const FormComponent = ({ formData, setFormData }) => {
 
 {/* Photo Field */}
 <div className="mb-4 relative">
-  <label
-    htmlFor="photo"
-    className="block text-sm font-bold mb-2 text-gray-700"
-  >
+  <label htmlFor="photo" className="block text-sm font-bold mb-2 text-gray-700">
     Photo
   </label>
   <div className="relative flex items-center">
+    {/* SVG Icon */}
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999" className="absolute left-2" style={{ top: '50%', transform: 'translateY(-50%)' }}>
       <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/>
     </svg>
-    <label
-      className="pl-10 p-2 border rounded-md w-full bg-white cursor-pointer inline-block"
-    >
-      Choose a file
+    <label className="pl-10 p-2 border rounded-md w-full bg-white cursor-pointer flex items-center">
+      <span className="flex-1">{fileName || "Choose a file"}</span>
       <input
         type="file"
         id="photo"
         name="photo"
+        accept="image/*"
         onChange={handleFileChange}
-        className="hidden" // hide the default file input
+        className="absolute inset-0 w-full opacity-0 cursor-pointer" // Make the input cover the entire area but invisible
       />
     </label>
   </div>
@@ -200,11 +210,12 @@ const FormComponent = ({ formData, setFormData }) => {
 
 
 
+
         {/* Error Field */}
         <div className={"mb-4" + Error == "" ? "hidden" : ""}>
           <label
             htmlFor="text"
-            className="block text-sm font-bold mb-2 text-gray-700"
+            className="block text-sm font-bold mb-4 text-red-700"
           >
             {Error}
           </label>
