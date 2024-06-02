@@ -22,6 +22,11 @@ const SignupCredentials = () => {
         setFormData({ ...formData, [event.target.id]: event.target.value });
     };
 
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };    
+
     const handleButtonClick = () => {
         let valid = true;
     
@@ -35,6 +40,11 @@ const SignupCredentials = () => {
         if (!formData.email) {
             setEmailValid(false);
             valid = false;
+        } else if (!isValidEmail(formData.email)) {
+            setEmailValid(false);
+            valid = false;
+            setError('Please enter a valid email address');
+            return;
         } else {
             setEmailValid(true);
         }
