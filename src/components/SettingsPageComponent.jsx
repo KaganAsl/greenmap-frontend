@@ -148,7 +148,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
 
     return (
         <div className='absolute inset-0 h-screen w-screen backdrop-blur-lg items-center justify-center flex z-10'>
-            <form className='bg-white shadow-md rounded px-12 pt-8 pb-10 mb-4'>
+            <form className='bg-white shadow-md rounded px-16 pt-8 pb-10 mb-4'>
                 <h2 className="mt-0 mb-5 text-center text-xl leading-9 tracking-tight text-gray-900">
                     Settings
                 </h2>
@@ -161,7 +161,7 @@ const SettingsPageComponent = ({ setSettingsButton }) => {
                             Username
                         </label>
                         <input
-                            className='shadow appearance-none w-full py-2 px-5 ml-0 text-gray-700 leading-tight focus:outline-none bg-gray-100'
+                            className='shadow appearance-none w-full py-2 px-7 ml-0 text-gray-700 leading-tight focus:outline-none bg-gray-100'
                             id='username'
                             type='text'
                             value={username}
