@@ -35,10 +35,10 @@ const WindowComponent = ({}) => {
   }, [selectedMarker]);
 
   return (
-    <div className="flex justify-center sm:justify-end md:justify-end lg:justify-end  inset-0 absolute items-end sm:items-center lg:items-center">
+    <div className="flex justify-center sm:justify-end md:justify-end lg:justify-end inset-0 absolute items-end lg:items-center">
       <div
         className={
-          "px-8 pt-6 pb-8 mb-4 m-2 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:mr-3 bg-white border rounded-2xl shadow-md z-10 xs:w-[90vw] md:w-[40vw] lg:w-[30vw]  "
+          "px-8 pt-6 pb-8 mb-4 m-2 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:mr-3 bg-white border rounded-2xl shadow-md z-10 xs:w-[90vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw]  "
         }
       >
         <p className="mb-2 hidden">Marker ID: {selectedMarker.id}</p>
